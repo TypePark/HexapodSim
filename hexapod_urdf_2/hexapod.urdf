@@ -1,0 +1,398 @@
+<?xml version="1.0"?>
+<robot name="hexapod">
+
+    <link name="base_link">
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/hexapod_base.stl" />
+        </geometry>
+        <material name="base_link_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/hexapod_base.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="2.0" />
+        <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0" izz="0.05" />
+        </inertial>
+    </link>
+
+    <link name="leg_l_0">
+        <visual>
+        <origin xyz="147.92 117.97 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_l_0.stl" />
+        </geometry>
+        <material name="leg_l_0_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="147.92 117.97 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_l_0.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.2" />
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+        </inertial>
+    </link>
+
+    <link name="foot_l_0">
+        <visual>
+        <origin xyz="460.92 117.97 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_l_0.stl" />
+        </geometry>
+        <material name="foot_l_0_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="460.92 117.97 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_l_0.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.1" />
+        <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.0005" />
+        </inertial>
+    </link>
+
+    <link name="leg_l_1">
+        <visual>
+        <origin xyz="184.46 -42.11 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_l_1.stl" />
+        </geometry>
+        <material name="leg_l_1_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="184.46 -42.11 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_l_1.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.2" />
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+        </inertial>
+    </link>
+
+    <link name="foot_l_1">
+        <visual>
+        <origin xyz="497.46 -42.11 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_l_1.stl" />
+        </geometry>
+        <material name="foot_l_1_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="497.46 -42.11 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_l_1.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.1" />
+        <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.0005" />
+        </inertial>
+    </link>
+
+    <link name="leg_l_2">
+        <visual>
+        <origin xyz="82.1 -170.46 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_l_2.stl" />
+        </geometry>
+        <material name="leg_l_2_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="82.1 -170.46 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_l_2.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.2" />
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+        </inertial>
+    </link>
+
+    <link name="foot_l_2">
+        <visual>
+        <origin xyz="395.1 -170.46 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_l_2.stl" />
+        </geometry>
+        <material name="foot_l_2_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="395.1 -170.46 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_l_2.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.1" />
+        <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.0005" />
+        </inertial>
+    </link>
+
+    <link name="leg_r_0">
+        <visual>
+        <origin xyz="-147.92 117.97 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_r_0.stl" />
+        </geometry>
+        <material name="leg_r_0_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="-147.92 117.97 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_r_0.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.2" />
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+        </inertial>
+    </link>
+
+    <link name="foot_r_0">
+        <visual>
+        <origin xyz="-460.92 117.97 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_r_0.stl" />
+        </geometry>
+        <material name="foot_r_0_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="-460.92 117.97 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_r_0.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.1" />
+        <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.0005" />
+        </inertial>
+    </link>
+
+    <link name="leg_r_1">
+        <visual>
+        <origin xyz="-184.46 -42.11 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_r_1.stl" />
+        </geometry>
+        <material name="leg_r_1_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="-184.46 -42.11 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_r_1.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.2" />
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+        </inertial>
+    </link>
+
+    <link name="foot_r_1">
+        <visual>
+        <origin xyz="-497.46 -42.11 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_r_1.stl" />
+        </geometry>
+        <material name="foot_r_1_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="-497.46 -42.11 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_r_1.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.1" />
+        <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.0005" />
+        </inertial>
+    </link>
+
+    <link name="leg_r_2">
+        <visual>
+        <origin xyz="-82.1 -170.46 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_r_2.stl" />
+        </geometry>
+        <material name="leg_r_2_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="-82.1 -170.46 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/leg_r_2.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.2" />
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+        </inertial>
+    </link>
+
+    <link name="foot_r_2">
+        <visual>
+        <origin xyz="-395.1 -170.46 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_r_2.stl" />
+        </geometry>
+        <material name="foot_r_2_mat">
+            <color rgba="0.5020 0.5020 0.5020 1.0"/>
+        </material>
+        </visual>
+        <collision>
+        <origin xyz="-395.1 -170.46 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="meshes/foot_r_2.stl" />
+        </geometry>
+        </collision>
+        <inertial>
+        <mass value="0.1" />
+        <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.0005" />
+        </inertial>
+    </link>
+
+    <joint name="j_base_to_leg_l_0" type="revolute">
+        <parent link="base_link" />
+        <child link="leg_l_0" />
+        <origin xyz="-147.92 -117.97 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="-0.2618" upper="1.571" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_leg_l_0_to_foot_l_0" type="prismatic">
+        <parent link="leg_l_0" />
+        <child link="foot_l_0" />
+        <origin xyz="-313 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="0" upper="31" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_base_to_leg_l_1" type="revolute">
+        <parent link="base_link" />
+        <child link="leg_l_1" />
+        <origin xyz="-184.46 42.11 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="-0.6981317" upper="1.134464" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_leg_l_1_to_foot_l_1" type="prismatic">
+        <parent link="leg_l_1" />
+        <child link="foot_l_1" />
+        <origin xyz="-313 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="0" upper="31" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_base_to_leg_l_2" type="revolute">
+        <parent link="base_link" />
+        <child link="leg_l_2" />
+        <origin xyz="-82.1 170.46 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="-1.570796" upper="0" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_leg_l_2_to_foot_l_2" type="prismatic">
+        <parent link="leg_l_2" />
+        <child link="foot_l_2" />
+        <origin xyz="-313 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="0" upper="31" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_base_to_leg_r_0" type="revolute">
+        <parent link="base_link" />
+        <child link="leg_r_0" />
+        <origin xyz="147.92 -117.97 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="-1.571" upper="0.2618" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_leg_r_0_to_foot_r_0" type="prismatic">
+        <parent link="leg_r_0" />
+        <child link="foot_r_0" />
+        <origin xyz="313 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="0" upper="31" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_base_to_leg_r_1" type="revolute">
+        <parent link="base_link" />
+        <child link="leg_r_1" />
+        <origin xyz="184.46 42.11 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="-1.134464" upper="0.6981317" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_leg_r_1_to_foot_r_1" type="prismatic">
+        <parent link="leg_r_1" />
+        <child link="foot_r_1" />
+        <origin xyz="313 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="0" upper="31" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_base_to_leg_r_2" type="revolute">
+        <parent link="base_link" />
+        <child link="leg_r_2" />
+        <origin xyz="82.1 170.46 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="0" upper="1.570796" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    <joint name="j_leg_r_2_to_foot_r_2" type="prismatic">
+        <parent link="leg_r_2" />
+        <child link="foot_r_2" />
+        <origin xyz="313 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="0" upper="31" effort="10" velocity="0.5" />
+        <dynamics damping="0.1" friction="1.6" />
+    </joint>
+
+    </robot>
