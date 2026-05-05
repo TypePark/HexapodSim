@@ -6,7 +6,7 @@ p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 p.loadURDF("plane.urdf")
 p.setGravity(0,0, -9.81)
-hexapod = p.loadURDF("", [0, 0, 0.2], globalScaling=0.01, useFixedBase=False)
+hexapod = p.loadURDF("hexapod_urdf_2/hexapod.urdf", [0, 0, 0.2], globalScaling=0.01, useFixedBase=False)
 
 class HexapodParser:
     def __init__(self):
