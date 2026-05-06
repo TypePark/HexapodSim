@@ -3,8 +3,8 @@ import pybullet as p
 class HexapodParser:
     def __init__(self, hexapod):
         self.hexapod = hexapod
-        self._parser()
         self.leg_data_dict = {}
+        self._parser()
 
 
     def _parser(self):

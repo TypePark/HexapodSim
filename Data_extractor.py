@@ -24,7 +24,7 @@ class DataExtraction:
         self.total_mass = total_mass
         self.mass_list = mass_list
 
-    def center_of_mass(self):
+    def current_center_of_mass(self):
         total_mass = self.total_mass
         local_x_com = 0.0
         local_y_com = 0.0
@@ -71,8 +71,8 @@ class DataExtraction:
 
     @staticmethod
     def foot_com_target(contact_positions, com):
-        if len(contact_positions) < 3:
-            raise ValueError("Contact list is lacking enough coordinates!")
+        if len(contact_positions) == 6:
+            pass # when 6 just needs to calculate height of the foot
 
         (cx1, cy1) = contact_positions[0]
         (cx2, cy2) = contact_positions[1]
@@ -96,3 +96,5 @@ class DataExtraction:
                 "triangle_center_x": triangle_center_x,
                 "triangle_center_y": triangle_center_y,
                 "center_of_mass": com}
+
+
