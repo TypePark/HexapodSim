@@ -1,4 +1,5 @@
 import pybullet as p
+import numpy as np
 
 class DataExtraction:
     def __init__(self, hexapod, hparser, gait_type):
@@ -8,7 +9,6 @@ class DataExtraction:
         self.mass_list = []
         self.total_mass = 0.0
         self._mass_calculation()
-
 
     def _mass_calculation(self):
         mass_list = []
@@ -24,8 +24,10 @@ class DataExtraction:
         self.total_mass = total_mass
         self.mass_list = mass_list
 
-    def current_center_of_mass(self):
+    def center_of_mass(self):
         total_mass = self.total_mass
+        base_pos = p.getBasePositionAndOrientation(self.hexapod)[0]
+
         local_x_com = 0.0
         local_y_com = 0.0
         local_z_com = 0.0
@@ -36,20 +38,22 @@ class DataExtraction:
             if part_num != -1:
                 position = p.getLinkState(self.hexapod, part_num)[0]
             else:
-                position = p.getBasePositionAndOrientation(self.hexapod)[0]
+                position = base_pos
 
-            local_x_com += mass * position[0]
-            local_y_com += mass * position[1]
-            local_z_com += mass * position[2]
+            local_x_com += mass * (position[0] - base_pos[0])
+            local_y_com += mass * (position[1] - base_pos[1])
+            local_z_com += mass * (position[2] - base_pos[2])
 
-        return {"localx": local_x_com / total_mass,
+        com = {"localx": local_x_com / total_mass,
                 "localy": local_y_com / total_mass,
                 "localz": local_z_com / total_mass}
 
-    def foot_data_prep(self, leg_ids_from_move_order):
+        return com
+
+    def foot_contact(self):
         foot_data_result = {}
-        for leg_id in leg_ids_from_move_order:
-            foot_index = self.leg_data_dict[leg_id]["foot"]["index"]
+        for leg_ids in self.leg_move_order:
+            foot_index = self.leg_data_dict[leg_ids]["foot"]["index"]
             contact_points = p.getContactPoints(self.hexapod, linkIndexA=foot_index)
             contact_position = [0.0, 0.0, 0.0]
             contact_distance = [0.0]
@@ -61,40 +65,34 @@ class DataExtraction:
                 contact_position = contp[5]
                 contact_distance = contp[8]
                 contact_force = contp[9]
-                ground_contact = contact_force > 0
+                ground_contact = True if contact_force > 0 else False
 
-            foot_data_result[leg_id] = {"position": contact_position,
+            foot_data_result[leg_ids] = {"position": contact_position,
                                          "contact": ground_contact,
                                          "force": contact_force,
                                          "distance": contact_distance}
         return foot_data_result
 
-    @staticmethod
-    def foot_com_target(contact_positions, com):
-        if len(contact_positions) == 6:
-            pass # when 6 just needs to calculate height of the foot
 
-        (cx1, cy1) = contact_positions[0]
-        (cx2, cy2) = contact_positions[1]
-        (cx3, cy3) = contact_positions[2]
-        (comx, comy) = com
+    def foot_com_target(self, data_result):
+        com = self.center_of_mass()
+        (x_com, y_com) = com["localx"], com["localy"]
+        base_pos = np.array(p.getBasePositionAndOrientation(self.hexapod)[0])
 
-        triangle_center_x = (cx1 + cx2 + cx3) / 3
-        triangle_center_y = (cy1 + cy2 + cy3) / 3
+        epsilon = np.finfo(float).eps
+        inverse_weights = {}
 
-        denominator = (cy2 - cy3) * (cx1 - cx3) + (cx3 - cx2) * (cy1 - cy3)
-        if denominator == 0:
-            u, v, w = 0, 0, 0
-        else:
-            u = ((cy2 - cy3) * (comx - cx3) + (cx3 - cx2) * (comy - cy3)) / denominator
-            v = ((cy3 - cy1) * (comx - cx3) + (cx1 - cx3) * (comy - cy3)) / denominator
-            w = 1 - u - v
+        for leg_ids, data in data_result.items():
+            if data["contact"]:
+                    (x_curr, y_curr, _) = (data["position"] - base_pos)
+                    com_distance = np.sqrt((x_curr - x_com)**2 + (y_curr - y_com)**2)
+                    com_distance_inverse = 1.0 / (com_distance + epsilon)
+                    inverse_weights[leg_ids] = com_distance_inverse
 
-        return {"contact_position_0": u,
-                "contact_position_1": v,
-                "contact_position_2": w,
-                "triangle_center_x": triangle_center_x,
-                "triangle_center_y": triangle_center_y,
-                "center_of_mass": com}
+        inverse_weights_sum = sum(inverse_weights.values())
+        if inverse_weights_sum == 0:
+            return {}
 
+        normalized_weights = {leg_id: float(weigths / inverse_weights_sum) for leg_id, weigths in inverse_weights.items()}
+        return  normalized_weights
 
