@@ -5,7 +5,7 @@ class DataExtraction:
     def __init__(self, hexapod, hparser, gait_type):
         self.hexapod = hexapod
         self.leg_data_dict = hparser.leg_data_dict
-        self.leg_move_order = hparser.gait_type(gait_type)
+        self.leg_move_order = hparser.gait_selector(gait_type)
         self.mass_list = []
         self.total_mass = 0.0
         self._mass_calculation()

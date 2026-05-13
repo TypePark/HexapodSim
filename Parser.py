@@ -34,7 +34,7 @@ class HexapodParser:
                 joint_data_dict[leg_id]["foot"] = data
         self.leg_data_dict = joint_data_dict
 
-    def gait_type(self, gait_type):
+    def gait_selector(self, gait_type):
         gait_types = ["tripod", "wave", "ripple"]
 
         if gait_type not in gait_types:
