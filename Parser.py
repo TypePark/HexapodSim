@@ -65,9 +65,7 @@ class HexapodParser:
                 move_order.append(right_side[right_tripod_order])
 
         elif gait_type == gait_types[1]:
-            for leg_num in range(leg_num_of_each_side):
-                move_order.append(left_side[leg_num])
-                move_order.append(right_side[leg_num])
+                move_order = left_side + right_side
 
         return move_order
 
