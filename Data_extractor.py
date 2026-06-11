@@ -33,8 +33,7 @@ class DataExtraction:
         local_z_com = 0.0
 
         for part_num in range(-1, p.getNumJoints(self.hexapod)):
-            mass_list = part_num + 1
-            mass = self.mass_list[mass_list]
+            mass = self.mass_list[part_num + 1]
             if part_num != -1:
                 position = p.getLinkState(self.hexapod, part_num)[0]
             else:
@@ -56,16 +55,16 @@ class DataExtraction:
             foot_index = self.leg_data_dict[leg_ids]["foot"]["index"]
             contact_points = p.getContactPoints(self.hexapod, linkIndexA=foot_index)
             contact_position = [0.0, 0.0, 0.0]
-            contact_distance = [0.0]
-            contact_force = [0.0]
-            ground_contact = [False]
+            contact_distance = 0.0
+            contact_force = 0.0
+            ground_contact = False
 
             if contact_points:
                 contp = contact_points[0]
                 contact_position = contp[5]
                 contact_distance = contp[8]
                 contact_force = contp[9]
-                ground_contact = True if contact_force > 0 else False
+                ground_contact  = True if contact_force > -0.01 else False
 
             foot_data_result[leg_ids] = {"position": contact_position,
                                          "contact": ground_contact,
@@ -86,13 +85,10 @@ class DataExtraction:
             if data["contact"]:
                     (x_curr, y_curr, _) = (data["position"] - base_pos)
                     com_distance = np.sqrt((x_curr - x_com)**2 + (y_curr - y_com)**2)
-                    com_distance_inverse = 1.0 / (com_distance + epsilon)
-                    inverse_weights[leg_ids] = com_distance_inverse
+                    com_distance_inverse_weights = 1.0 / (com_distance + epsilon)
+                    inverse_weights[leg_ids] = com_distance_inverse_weights
 
         inverse_weights_sum = sum(inverse_weights.values())
-        if inverse_weights_sum == 0:
-            return {}
-
         normalized_weights = {leg_id: float(weigths / inverse_weights_sum) for leg_id, weigths in inverse_weights.items()}
-        return  normalized_weights
+        return normalized_weights
 

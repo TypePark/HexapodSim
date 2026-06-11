@@ -22,8 +22,14 @@ class HexapodEnv:
 env = HexapodEnv(hexapod, gait_type)
 start_time = time.time()
 
-while 1:
+for frame in range(2000):
     p.stepSimulation()
     updated_time = time.time() - start_time
-    env.gait.hexapod_wave_gait(updated_time) # Can change this
+
+    foot_contact = env.data_extractor.foot_contact()
+    foot_target = env.data_extractor.foot_com_target(foot_contact)
+    print(foot_target)
+    env.gait.hexapod_wave_gait(updated_time) # Change this for the selected gait. (TO-DO: Remove the need for changing this line)
+    env.data_extractor.center_of_mass()
+
     time.sleep(1/240)
