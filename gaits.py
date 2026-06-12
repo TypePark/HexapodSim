@@ -27,7 +27,7 @@ class Gaits:
                 foot_target = self.leg_data_dict[leg_id]["foot"]["upper_limit"]
 
             p.setJointMotorControl2(self.hexapod, self.leg_data_dict[leg_id]["coxa"]["index"], p.POSITION_CONTROL, leg_target)
-            p.setJointMotorControl2(self.hexapod, self.leg_data_dict[leg_id]["foot"]["index"], p.POSITION_CONTROL, foot_target, force= 10.0)
+            p.setJointMotorControl2(self.hexapod, self.leg_data_dict[leg_id]["foot"]["index"], p.POSITION_CONTROL, foot_target, force= 15.0)
 
     def hexapod_ripple_gait(self, current_time):
         num_leg_pairs = self.num_legs // 2
@@ -47,7 +47,7 @@ class Gaits:
                 foot_target = self.leg_data_dict[leg_id]["foot"]["upper_limit"]
 
             p.setJointMotorControl2(self.hexapod, self.leg_data_dict[leg_id]["coxa"]["index"], p.POSITION_CONTROL, leg_target)
-            p.setJointMotorControl2(self.hexapod, self.leg_data_dict[leg_id]["foot"]["index"], p.POSITION_CONTROL, foot_target, force= 10.0)
+            p.setJointMotorControl2(self.hexapod, self.leg_data_dict[leg_id]["foot"]["index"], p.POSITION_CONTROL, foot_target, force= 15.0)
 
     def hexapod_wave_gait(self, current_time):
         swing_time = self.total_cycle / self.num_legs
@@ -64,5 +64,5 @@ class Gaits:
                 foot_target = self.leg_data_dict[leg_id]["foot"]["upper_limit"]
 
             p.setJointMotorControl2(self.hexapod, self.leg_data_dict[leg_id]["coxa"]["index"], p.POSITION_CONTROL, leg_target)
-            p.setJointMotorControl2(self.hexapod, self.leg_data_dict[leg_id]["foot"]["index"], p.POSITION_CONTROL, foot_target, force= 10.0)
+            p.setJointMotorControl2(self.hexapod, self.leg_data_dict[leg_id]["foot"]["index"], p.POSITION_CONTROL, foot_target, force= 15.0)
 
