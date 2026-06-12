@@ -10,9 +10,11 @@ import pybullet_data
 p.connect(p.GUI)
 p.setGravity(0, 0, -9.81)
 
-p.setAdditionalSearchPath(pybullet_data.getDataPath())
-planhe = p.loadURDF("plane.urdf")
-hexapod = p.loadURDF("hexapod_urdf_2/hexapod.urdf", [0, 0, 0.725], globalScaling=0.01, useFixedBase=False)
+#p.setAdditionalSearchPath(pybullet_data.getDataPath())
+#plane = p.loadURDF("plane.urdf")
+
+terrain = terrain_generator.Terrain()
+hexapod = p.loadURDF("hexapod_urdf_2/hexapod.urdf", [0, 0, 0.65], globalScaling=0.01, useFixedBase=False)
 gait_type = "ripple" # Select gait
 
 class HexapodEnv:
