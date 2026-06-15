@@ -6,7 +6,9 @@ class Terrain:
         self.rows = 400
         self.columns = 400
 
-        self.heights = np.random.rand(self.rows, self.columns).flatten()
+        height_matrix = np.zeros((self.rows, self.columns))
+        self.heights = height_matrix.flatten()
+
 
         self.terrain_shape = p.createCollisionShape(
             shapeType=p.GEOM_HEIGHTFIELD,

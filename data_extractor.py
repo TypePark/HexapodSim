@@ -80,15 +80,20 @@ class DataExtraction:
 
         epsilon = np.finfo(float).eps
         inverse_weights = {}
+        the_ones_not_helping = []
 
         for leg_ids, data in data_result.items():
             if data["contact"]:
-                    (x_curr, y_curr, _) = (data["position"] - base_pos)
+                    position = np.array(data["position"])
+                    (x_curr, y_curr, _) = (position - base_pos)
                     com_distance = np.sqrt((x_curr - x_com)**2 + (y_curr - y_com)**2)
                     com_distance_inverse_weights = 1.0 / (com_distance + epsilon)
                     inverse_weights[leg_ids] = com_distance_inverse_weights
+            elif not data["contact"]:
+                the_ones_not_helping.append(leg_ids)
 
         inverse_weights_sum = sum(inverse_weights.values())
         normalized_weights = {leg_id: float(weigths / inverse_weights_sum) for leg_id, weigths in inverse_weights.items()}
-        return normalized_weights
+
+        return normalized_weights, the_ones_not_helping
 

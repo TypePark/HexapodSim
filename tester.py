@@ -15,7 +15,7 @@ p.setGravity(0, 0, -9.81)
 
 terrain = terrain_generator.Terrain()
 hexapod = p.loadURDF("hexapod_urdf_2/hexapod.urdf", [0, 0, 0.65], globalScaling=0.01, useFixedBase=False)
-gait_type = "ripple" # Select gait
+gait_type = "tripod" # Select gait
 
 class HexapodEnv:
     def __init__(self, hexapod_in, gait_type_in):
