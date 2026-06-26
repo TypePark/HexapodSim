@@ -1,6 +1,7 @@
 import pybullet as p
 import numpy as np
 
+
 class DataExtraction:
     def __init__(self, hexapod, hparser, gait_type):
         self.hexapod = hexapod
@@ -10,6 +11,7 @@ class DataExtraction:
         self.total_mass = 0.0
         self._mass_calculation()
 
+        self.previous_velocity = {}
     def _mass_calculation(self):
         mass_list = []
         total_mass = 0.0
@@ -24,7 +26,7 @@ class DataExtraction:
         self.total_mass = total_mass
         self.mass_list = mass_list
 
-    def center_of_mass(self):
+    def center_of_mass(self): # Only keeps track of center of mass coordinates.
         total_mass = self.total_mass
         base_pos = p.getBasePositionAndOrientation(self.hexapod)[0]
 
@@ -43,10 +45,9 @@ class DataExtraction:
             local_y_com += mass * (position[1] - base_pos[1])
             local_z_com += mass * (position[2] - base_pos[2])
 
-        com = {"localx": local_x_com / total_mass,
-                "localy": local_y_com / total_mass,
-                "localz": local_z_com / total_mass}
-
+        com = {"local_x": local_x_com / total_mass,
+                "local_y": local_y_com / total_mass,
+                "local_z": local_z_com / total_mass}
         return com
 
     def foot_contact(self):
@@ -75,25 +76,61 @@ class DataExtraction:
 
     def foot_com_target(self, data_result):
         com = self.center_of_mass()
-        (x_com, y_com) = com["localx"], com["localy"]
+        (x_com, y_com) = com["local_x"], com["local_y"]
         base_pos = np.array(p.getBasePositionAndOrientation(self.hexapod)[0])
 
         epsilon = np.finfo(float).eps
         inverse_weights = {}
-        the_ones_not_helping = []
+        normalized_weights = {}
 
         for leg_ids, data in data_result.items():
+            inverse_weights[leg_ids] = 0.0
             if data["contact"]:
                     position = np.array(data["position"])
                     (x_curr, y_curr, _) = (position - base_pos)
                     com_distance = np.sqrt((x_curr - x_com)**2 + (y_curr - y_com)**2)
                     com_distance_inverse_weights = 1.0 / (com_distance + epsilon)
                     inverse_weights[leg_ids] = com_distance_inverse_weights
-            elif not data["contact"]:
-                the_ones_not_helping.append(leg_ids)
 
         inverse_weights_sum = sum(inverse_weights.values())
-        normalized_weights = {leg_id: float(weigths / inverse_weights_sum) for leg_id, weigths in inverse_weights.items()}
+        if inverse_weights_sum == 0:
+            for leg_ids in inverse_weights.keys():
+                normalized_weights[leg_ids] = 0.0
+        else:
+            for leg_ids, weights in inverse_weights.items():
+                normalized_weights[leg_ids] = float(weights / inverse_weights_sum)
 
-        return normalized_weights, the_ones_not_helping
+        return normalized_weights
 
+    def slip_detection(self, data_result, gait_speed):
+        slip = {}
+
+        for leg_ids, data in data_result.items():
+
+            if data["contact"]:
+                index = self.leg_data_dict[leg_ids]["foot"]["index"]
+                link_state = p.getLinkState(self.hexapod, index, 1)
+                velocity = link_state[6]
+                magnitude_velocity = np.linalg.norm(velocity)
+                previous_velocity = self.previous_velocity.get(leg_ids, magnitude_velocity)
+
+                velocity_spike = magnitude_velocity - previous_velocity
+
+                if velocity_spike > 1.6 * gait_speed:
+                    slip[leg_ids] = {"slip": True, "slip_velocity": magnitude_velocity}
+                else:
+                    slip[leg_ids] = {"slip": False, "slip_velocity": magnitude_velocity}
+                self.previous_velocity[leg_ids] = magnitude_velocity
+
+            else:
+                slip[leg_ids] = {"slip": False, "slip_velocity": 0.0}
+        return slip
+
+    def fall_detection(self, foot_contact):
+        foot_contact_count = sum(1 for data in foot_contact.values() if data["contact"])
+
+        _, orientation = p.getBasePositionAndOrientation(self.hexapod)
+        euler_angles = p.getEulerFromQuaternion(orientation)
+        angle = abs(euler_angles[0]) + abs(euler_angles[1])
+
+        return angle > 0.5 or foot_contact_count < 3

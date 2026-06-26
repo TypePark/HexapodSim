@@ -14,7 +14,7 @@ p.setGravity(0, 0, -9.81)
 #plane = p.loadURDF("plane.urdf")
 
 terrain = terrain_generator.Terrain()
-hexapod = p.loadURDF("hexapod_urdf_2/hexapod.urdf", [0, 0, 0.65], globalScaling=0.01, useFixedBase=False)
+hexapod = p.loadURDF("hexapod_urdf_2/hexapod.urdf", [0, 0, 0.25], globalScaling=0.01, useFixedBase=False)
 gait_type = "tripod" # Select gait
 
 class HexapodEnv:
@@ -23,6 +23,7 @@ class HexapodEnv:
         self.data_extractor  = data_extractor.DataExtraction(hexapod_in, self.parser, gait_type_in)
         self.gait = gaits.Gaits(hexapod_in, self.parser, gait_type_in)
         self.debug_camera = debug_camera.DebugCamera(hexapod_in)
+        self.gait_speed = self.gait.gait_speed
 
 env = HexapodEnv(hexapod, gait_type)
 gait = getattr(env.gait, f"hexapod_{gait_type}_gait")
@@ -36,9 +37,10 @@ while 1:
     updated_time = time.time() - start_time
     foot_contact = env.data_extractor.foot_contact()
     foot_target = env.data_extractor.foot_com_target(foot_contact)
-    print(foot_target)
-    env.data_extractor.center_of_mass()
+    com = env.data_extractor.center_of_mass()
+    slip = env.data_extractor.slip_detection(foot_contact, env.gait_speed)
+    fall = env.data_extractor.fall_detection(foot_contact)
+    gait(updated_time, env.data_extractor.total_mass)
 
-    gait(updated_time)
-
+    print(fall)
     time.sleep(1/240)
