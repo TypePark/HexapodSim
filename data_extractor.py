@@ -12,6 +12,8 @@ class DataExtraction:
         self._mass_calculation()
 
         self.previous_velocity = {}
+        self.frame_counter = 0
+
     def _mass_calculation(self):
         mass_list = []
         total_mass = 0.0
@@ -133,4 +135,12 @@ class DataExtraction:
         euler_angles = p.getEulerFromQuaternion(orientation)
         angle = abs(euler_angles[0]) + abs(euler_angles[1])
 
-        return angle > 0.5 or foot_contact_count < 3
+        tilt_fall = angle > 0.5
+        lack_contact_fall = foot_contact_count < 3
+
+        if tilt_fall or lack_contact_fall:
+            self.frame_counter += 1
+        else:
+            self.frame_counter = 0
+
+        return self.frame_counter >= 12 # frames

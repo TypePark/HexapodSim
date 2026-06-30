@@ -2,6 +2,7 @@ import pybullet as p
 import threading
 
 
+
 class DebugCamera:
     def __init__(self, hexapod):
         self.hexapod = hexapod
@@ -11,7 +12,7 @@ class DebugCamera:
         self.cam_yaw = debug_camera[8]
         self.cam_pitch = debug_camera[9]
         self.cam_dist = debug_camera[10]
-        self.cam_target = list(debug_camera[11])
+        self.cam_target = list(self.hexapod_cam)
 
         self._lock = threading.Lock()
         self._running = True
